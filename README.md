@@ -43,6 +43,8 @@ Named profiles and department aliases are explicitly attributed to that referenc
 
 The Kondapur view never attaches fictional demo promises, budgets, voting records, or events to real people. Its community questions are browser-local drafts and are not submitted. **Explore demo** switches to the original fictional experience; its header includes a **Kondapur** shortcut to return. Search also recognises Kondapur, Shilpa Park, and 500084. With no saved location, the app opens the Kondapur view.
 
+The Kondapur directory defaults to entries covered by the supplied reference; its information filter can reveal the wider role guide. The overview includes issue-to-office routing for water, power, municipal services, police, revenue, and legislative concerns. These are general starting points, not verified service boundaries or official contact channels.
+
 Validate the locality-specific flows with `node tests/kondapur-browser.mjs` while the dev server is running.
 
 ## Features
