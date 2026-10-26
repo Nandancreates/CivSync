@@ -9,6 +9,8 @@ try{
  // This workspace's managed Chromium policy blocks file:// navigation.
  // Load the exact HTML contents to test the standalone bundle without a server.
  await page.setContent(await readFile('CivSync-preview.html','utf8'));
+ await page.getByRole('heading',{name:'Your neighbourhood. Your representation.'}).waitFor();
+ await page.getByRole('button',{name:'Explore demo',exact:true}).click();
  await page.getByRole('heading',{name:'They represent you.'}).waitFor();
  assert.equal(await page.locator('.rep-card').count(),3);
  await page.getByRole('link',{name:'Representatives',exact:true}).click();

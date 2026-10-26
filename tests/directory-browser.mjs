@@ -4,6 +4,7 @@ import {offices} from '../src/directory.js';
 const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
 try{
 const page=await browser.newPage({viewport:{width:1440,height:1000}});page.setDefaultTimeout(20000);await page.route(/fonts\.(googleapis|gstatic)\.com/,route=>route.abort());const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.addInitScript(()=>{if(!localStorage.getItem('civsync-city'))localStorage.setItem('civsync-city',JSON.stringify('bengaluru'));});
 await page.goto('http://127.0.0.1:3000/#representatives');
 await page.getByRole('heading',{name:'Every level. Every responsibility.'}).waitFor();
 assert.equal(await page.locator('.office-card').count(),offices.length);

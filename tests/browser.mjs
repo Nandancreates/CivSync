@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
 const page=await browser.newPage({viewport:{width:1440,height:1000}});
 const errors=[];page.on('pageerror',error=>errors.push(error.message));
+await page.addInitScript(()=>{if(!localStorage.getItem('civsync-city'))localStorage.setItem('civsync-city',JSON.stringify('bengaluru'));});
 await page.goto('http://127.0.0.1:3000');
 await page.getByRole('heading',{name:'They represent you.'}).waitFor();
 assert.equal(await page.locator('.rep-card').count(),3);

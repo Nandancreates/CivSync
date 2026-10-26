@@ -1,0 +1,8 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {getKondapurOffices,kondapurRecords,kondapurSource} from '../src/kondapur.js';
+import {offices} from '../src/directory.js';
+import {cities,matchCity} from '../src/data.js';
+test('Kondapur address aliases select the reference view without storing a street address',()=>{for(const query of ['Kondapur, Hyderabad','Shilpa Park','500084'])assert.equal(matchCity(query).id,'hyderabad');const city=cities.find(c=>c.id==='hyderabad');assert.equal(city.mode,'reference');assert.ok(!city.address.includes('Marg'));assert.ok(!city.address.includes('Hamlet'));assert.equal(city.meeting,undefined);});
+test('reference offices never retain demo representative IDs or scorecards',()=>{const records=getKondapurOffices(offices);assert.equal(records.length,offices.length);for(const o of records){assert.equal(o.rep,undefined);assert.equal(o.promises,undefined);assert.equal(o.delivered,undefined);assert.equal(o.email,undefined);}assert.equal(records.find(o=>o.id==='mla').holder,'Arekapudi Gandhi');assert.equal(records.find(o=>o.id==='mp').holder,'Konda Vishweshwar Reddy');assert.equal(records.find(o=>o.id==='councillor').holder,null);assert.equal(records.find(o=>o.id==='councillor').status,'Reference reports vacancy');});
+test('every named reference record has document provenance, not a live verification claim',()=>{for(const [id,r] of Object.entries(kondapurRecords)){assert.ok(offices.some(o=>o.id===id));assert.ok(r.pages);if(r.holder)assert.ok(!r.status||r.status==='Named in reference');}assert.match(kondapurSource.verification,/not independently verified/);});

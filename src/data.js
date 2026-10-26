@@ -1,7 +1,8 @@
 export const cities = [
  {id:'bengaluru',city:'Bengaluru',state:'Karnataka',area:'Indiranagar',address:'Indiranagar, Bengaluru, Karnataka',ward:'Ward 80',aliases:['bengaluru','bangalore','indiranagar','560038'],meeting:'Saturday, 14 November · 10:00 AM',venue:'Indiranagar Community Hall'},
  {id:'delhi',city:'New Delhi',state:'Delhi',area:'Greater Kailash',address:'Greater Kailash, New Delhi',ward:'Ward 173',aliases:['delhi','greater kailash','110048'],meeting:'Sunday, 15 November · 11:00 AM',venue:'Greater Kailash Community Centre'},
- {id:'mumbai',city:'Mumbai',state:'Maharashtra',area:'Bandra West',address:'Bandra West, Mumbai, Maharashtra',ward:'H West ward',aliases:['mumbai','bandra','400050','bombay'],meeting:'Saturday, 21 November · 10:30 AM',venue:'Bandra Community Hall'}
+ {id:'mumbai',city:'Mumbai',state:'Maharashtra',area:'Bandra West',address:'Bandra West, Mumbai, Maharashtra',ward:'H West ward',aliases:['mumbai','bandra','400050','bombay'],meeting:'Saturday, 21 November · 10:30 AM',venue:'Bandra Community Hall'},
+ {id:'hyderabad',city:'Hyderabad',state:'Telangana',area:'Shilpa Park, Kondapur',address:'Shilpa Park, Kondapur, Hyderabad, Telangana, 500084',ward:'Municipal boundary unverified',mode:'reference',aliases:['kondapur','shilpa park','500084']},
 ];
 export function matchCity(query){const q=query.trim().toLowerCase();if(!q)return null;return cities.find(c=>c.aliases.some(a=>q.includes(a)))||null;}
 export const representatives = [
