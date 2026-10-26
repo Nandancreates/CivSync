@@ -2,6 +2,18 @@
 
 A responsive civic accountability prototype built with React, Vite, and Lucide icons. The visual design combines warm ivory, forest green, editorial typography, original SVG city artwork, and illustrated profiles.
 
+## Open without installing anything
+
+Download `CivSync-preview.html` from the repository (use GitHub’s **Download raw file** button), then double-click the downloaded file. It opens the working demo directly in a browser without Node.js, a server, third-party preview services, or deployment. If the repository is private, sign in to GitHub first.
+
+This self-contained preview bundles the existing app, uses local fallback fonts, and makes no network requests. Its demo data limitations remain the same as the app. Browser-local storage availability for local files varies by browser; the app still renders when storage is unavailable. Regenerate it after app changes with:
+
+```sh
+npm run build
+node scripts/export-preview.mjs
+node tests/preview-browser.mjs
+```
+
 ## Run
 
 Requires Node.js 20.19+ or 22.12+ (validated on Node.js 24).
