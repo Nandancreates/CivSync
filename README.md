@@ -18,6 +18,7 @@ npm run dev -- --port 3000
 npm run build
 npm test
 node tests/browser.mjs
+node tests/directory-browser.mjs
 ```
 
 The browser smoke suite expects the development server on port 3000 and Chromium at `/usr/bin/chromium`. It checks representative filtering, saved profiles, contacts, record dialogs, demo address lookup and unsupported addresses, community posting and support, persistence, navigation, runtime errors, and mobile overflow. Screenshots are written to `/tmp/civsync-desktop.png` and `/tmp/civsync-mobile.png`.
@@ -26,6 +27,9 @@ The browser smoke suite expects the development server on port 3000 and Chromium
 
 - Address search with demo neighbourhoods in Bengaluru, New Delhi, and Mumbai; unsupported addresses receive an explicit explanation.
 - Local, state, and central representative profiles, party affiliations, contact information, and browser-persisted bookmarks.
+- Searchable representation directory covering 81 offices and departments: local civic services, state ministers, Union ministries, constitutional offices, and oversight bodies. Government-level and selection-route filters distinguish directly elected, indirect, appointed, and variable routes; Delhi excludes the Legislative Council and State Information Commission.
+- Expanded councillor, MLA, and MP profile tabs covering responsibilities, limits of authority, background and disclosures, promises, votes, funds, and contacts. Missing personal and official records are explicitly marked.
+- The user-provided representation PDF informed the role hierarchy only; no named officeholder claims from the attachment are presented as verified current data.
 - Promise status filters, progress details, representative voting histories, and data provenance explanations.
 - Development allocations, spending and remaining balances, and project breakdowns.
 - Ruling coalition, opposition, and other party composition by government level.
