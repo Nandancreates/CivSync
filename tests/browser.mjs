@@ -1,0 +1,23 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({executablePath:'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});
+const errors=[];page.on('pageerror',error=>errors.push(error.message));
+await page.goto('http://127.0.0.1:3000');
+await page.getByRole('heading',{name:'They represent you.'}).waitFor();
+assert.equal(await page.locator('.rep-card').count(),3);
+await page.getByRole('button',{name:'State',exact:true}).click();assert.equal(await page.locator('.rep-card').count(),1);await page.getByRole('heading',{name:'Vikram Desai',exact:true}).waitFor();
+await page.getByRole('button',{name:'All levels',exact:true}).click();
+await page.getByRole('button',{name:'Save Ananya Rao',exact:true}).click();
+await page.getByRole('button',{name:'Open your saved representatives'}).click();await page.getByRole('dialog').getByText('Ananya Rao',{exact:true}).waitFor();await page.keyboard.press('Escape');
+await page.getByRole('button',{name:'Contact Ananya Rao'}).click();await page.getByText('ananya.rao@example.org',{exact:true}).waitFor();await page.getByRole('button',{name:'Close dialog'}).click();
+await page.getByRole('button',{name:/Resurface 12/}).click();await page.getByRole('heading',{name:'Better roads. Smoother everyday journeys.'}).waitFor();await page.keyboard.press('Escape');
+await page.screenshot({path:'/tmp/civsync-desktop.png',fullPage:true});
+const address=page.getByRole('textbox',{name:'Your address or neighbourhood'});await address.fill('London SW1A');await page.getByRole('button',{name:'Find my representatives',exact:true}).click();await page.getByRole('alert').waitFor();await address.fill('Bandra West, Mumbai');await page.getByRole('button',{name:'Find my representatives',exact:true}).click();assert.match(await page.locator('.location-bar').innerText(),/Bandra West/);
+await page.getByRole('link',{name:'Community',exact:true}).click();await page.getByRole('button',{name:'Ask a question',exact:true}).click();await page.getByLabel('Your question').fill('Can we add safe crossings near the neighbourhood school?');await page.getByLabel('Your first name').fill('Test Neighbour');await page.getByRole('button',{name:'Post my question'}).click();await page.getByRole('heading',{name:'Can we add safe crossings near the neighbourhood school?'}).waitFor();
+const support=page.getByRole('button',{name:'Support: Can we add safe crossings near the neighbourhood school?'});await support.click();assert.equal(await page.getByRole('button',{name:'Remove support for: Can we add safe crossings near the neighbourhood school?'}).getAttribute('aria-pressed'),'true');await page.reload();await page.getByRole('heading',{name:'Can we add safe crossings near the neighbourhood school?'}).waitFor();assert.equal(await page.getByRole('button',{name:'Remove support for: Can we add safe crossings near the neighbourhood school?'}).getAttribute('aria-pressed'),'true');
+await page.getByRole('link',{name:'Promises & votes',exact:true}).click();await page.getByLabel('Filter promises by status').selectOption('Delivered');assert.equal(await page.locator('.all-promises .promise-row').count(),3);await page.locator('.all-votes .vote-row').first().click();await page.getByRole('dialog').getByText('State Legislative Assembly',{exact:true}).waitFor();await page.keyboard.press('Escape');
+await page.getByRole('link',{name:'Public funds',exact:true}).click();await page.getByRole('button',{name:'See project breakdown'}).first().click();await page.getByRole('dialog').getByText('₹34 lakh',{exact:true}).waitFor();await page.keyboard.press('Escape');
+await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Open menu'}).click();await page.getByRole('link',{name:'Overview',exact:true}).click();await page.getByRole('heading',{name:'They represent you.'}).waitFor();await page.screenshot({path:'/tmp/civsync-mobile.png',fullPage:true});
+for(const route of ['overview','representatives','promises','funds','community']){await page.goto('http://127.0.0.1:3000/#'+route);await page.waitForTimeout(150);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),route+' horizontal overflow');}
+assert.deepEqual(errors,[]);console.log('PASS: navigation, representative filters, saving, contacts, promises, unsupported address, city search, community posting and voting, persistence, funds, mobile navigation, and all mobile layouts. No browser runtime errors.');await browser.close();

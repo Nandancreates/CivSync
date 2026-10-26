@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {matchCity,representatives,promises,votes,projects,money} from '../src/data.js';
+test('address lookup recognises demo aliases and rejects unsupported addresses',()=>{assert.equal(matchCity('12 Main Road, Indiranagar, Bangalore 560038').id,'bengaluru');assert.equal(matchCity('Greater Kailash, New Delhi').id,'delhi');assert.equal(matchCity('Bandra West, Mumbai').id,'mumbai');assert.equal(matchCity('London SW1A 1AA'),null);assert.equal(matchCity(''),null)});
+test('every promise and vote belongs to a representative',()=>{const ids=new Set(representatives.map(r=>r.id));for(const record of [...promises,...votes])assert.ok(ids.has(record.rep));assert.deepEqual(representatives.map(r=>r.level),['Local','State','Central']);assert.equal(representatives.reduce((n,r)=>n+r.promises,0),45);assert.equal(representatives.reduce((n,r)=>n+r.delivered,0),26)});
+test('funds reconcile and spent allocations stay in bounds',()=>{assert.equal(projects.reduce((n,p)=>n+p.amount,0),240);assert.equal(projects.reduce((n,p)=>n+p.spent,0),160);for(const p of projects)assert.ok(p.spent>=0&&p.spent<=p.amount);assert.equal(money(110),'₹1.1 cr');assert.equal(money(50),'₹50 lakh')});
