@@ -47,6 +47,18 @@ The Kondapur directory defaults to entries covered by the supplied reference; it
 
 Validate the locality-specific flows with `node tests/kondapur-browser.mjs` while the dev server is running.
 
+## Simple controls and question deletion
+
+The existing visual design, reference data, demo profiles, and routes are retained. Page titles and actions use plainer words. Secondary filters, official websites, boundary notes, and source explanations expand when requested. Primary search and government-level choices remain visible. Source uncertainty is still stated before opening extra details.
+
+Questions show a visible **Delete** action only for their browser-local owner. Select **Delete**, then **Delete question** to remove one; **Keep question** or Escape cancels. Saved questions and deletions persist when browser storage is available. Existing questions created by older versions on the same browser are retained and migrated so their author can still delete them. Sample questions and questions already marked as another owner's cannot be deleted through these controls.
+
+In the demo community, **Your questions** is selected after saving so a new question is easy to find. **All questions**, search, sorting, and support voting still work. Kondapur displays a save/delete confirmation and keeps questions separate from official submissions.
+
+Ownership is a random identifier saved in this browser; this frontend has no accounts or server. A future shared service must enforce authenticated ownership on the backend. Clearing browser storage removes this device's saved questions and owner identifier.
+
+Run `node tests/usability-browser.mjs` with the dev server running to validate save/cancel/delete, refresh persistence, sample/other-owner protection, simple disclosures and mobile layouts. `npm test` also checks legacy migration and ownership rules.
+
 ## Features
 
 - Address search with demo neighbourhoods in Bengaluru, New Delhi, and Mumbai; unsupported addresses receive an explicit explanation.

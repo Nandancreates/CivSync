@@ -9,7 +9,7 @@ try{
  // This workspace's managed Chromium policy blocks file:// navigation.
  // Load the exact HTML contents to test the standalone bundle without a server.
  await page.setContent(await readFile('CivSync-preview.html','utf8'));
- await page.getByRole('heading',{name:'Your neighbourhood. Your representation.'}).waitFor();
+ await page.getByRole('heading',{name:'Who represents you?'}).waitFor();
  await page.getByRole('button',{name:'Explore demo',exact:true}).click();
  await page.getByRole('heading',{name:'They represent you.'}).waitFor();
  assert.equal(await page.locator('.rep-card').count(),3);
@@ -23,8 +23,11 @@ try{
  await page.getByRole('link',{name:'Community',exact:true}).click();
  await page.getByRole('button',{name:'Ask a question',exact:true}).click();
  await page.getByLabel('Your question').fill('Can the local bus service run more frequently?');
- await page.getByRole('button',{name:'Post my question'}).click();
+ await page.getByRole('button',{name:'Save my question'}).click();
  await page.getByRole('heading',{name:'Can the local bus service run more frequently?'}).waitFor();
+ await page.getByRole('button',{name:'Delete question: Can the local bus service run more frequently?'}).click();
+ await page.getByRole('button',{name:'Delete question',exact:true}).click();
+ assert.equal(await page.getByRole('heading',{name:'Can the local bus service run more frequently?'}).count(),0);
  await page.getByRole('link',{name:'Public funds',exact:true}).click();
  await page.getByRole('button',{name:'See project breakdown'}).first().click();
  await page.getByRole('dialog').getByText('₹34 lakh',{exact:true}).waitFor();
