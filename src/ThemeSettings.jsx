@@ -1,0 +1,15 @@
+import React,{useEffect,useRef,useState,useId} from 'react';
+import {Palette,Check,X,Sun,Moon,Sparkles} from 'lucide-react';
+import {themes,readTheme,applyTheme,THEME_KEY} from './theme';
+export default function ThemeSettings(){
+ const[current,setCurrent]=useState(readTheme);const[open,setOpen]=useState(false);const[notice,setNotice]=useState('');const container=useRef(null);const panel=useRef(null);const trigger=useRef(null);const id=useId();
+ useEffect(()=>{applyTheme(current)},[current]);
+ useEffect(()=>{const update=e=>{if(e.key===THEME_KEY||e.key===null)setCurrent(readTheme())};window.addEventListener('storage',update);return()=>window.removeEventListener('storage',update)},[]);
+ useEffect(()=>{if(!open)return;panel.current?.querySelector('input:checked')?.focus();const outside=e=>{if(!container.current?.contains(e.target))setOpen(false)};document.addEventListener('pointerdown',outside);return()=>document.removeEventListener('pointerdown',outside)},[open]);
+ function close(){setOpen(false);trigger.current?.focus()}
+ function choose(id){setCurrent(applyTheme(id));try{localStorage.setItem(THEME_KEY,id);setNotice('Saved on this browser.')}catch{setNotice('Theme changed for this session. Browser storage is unavailable.')}}
+ return <div className="theme-settings" ref={container} onKeyDown={e=>{if(e.key==='Escape'&&open){e.stopPropagation();close()}}} onBlur={e=>{if(e.relatedTarget&&!e.currentTarget.contains(e.relatedTarget))setOpen(false)}}>
+ {open&&<section className="theme-panel" id={id} ref={panel} role="dialog" aria-label="Theme settings"><div className="theme-panel-heading"><div><span>MAKE IT YOURS</span><h2>Choose a theme</h2></div><button className="theme-close" aria-label="Close theme settings" onClick={close}><X size={18}/></button></div><p>Same website. A different look.</p><fieldset aria-label="Website theme"><legend className="sr-only">Website theme</legend>{themes.map((theme,index)=>{const Icon=[Sun,Moon,Sparkles][index];return <label className={'theme-choice '+(current===theme.id?'is-selected':'')} key={theme.id}><input type="radio" name="civsync-appearance" value={theme.id} checked={current===theme.id} onChange={()=>choose(theme.id)}/><span className="theme-choice-content"><span className="theme-choice-name"><Icon size={16}/><strong>{theme.name}</strong><span className="theme-swatches" aria-hidden="true">{theme.colors.map(color=><i key={color} style={{background:color}}/>)}</span></span><span className="theme-description">{theme.description}</span></span><span className="theme-selected-mark" aria-hidden="true">{current===theme.id&&<Check size={15}/>}</span></label>})}</fieldset><p className="theme-save-status" role="status">{notice||'Your choice is saved on this browser.'}</p></section>}
+ <button className="theme-toggle" ref={trigger} aria-expanded={open} aria-controls={open?id:undefined} aria-haspopup="dialog" onClick={()=>setOpen(value=>!value)}><Palette size={17}/><span>Theme</span><span className="theme-current-dot" aria-hidden="true"/></button>
+ </div>;
+}

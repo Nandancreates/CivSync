@@ -10,6 +10,6 @@ const css=(await readFile(new URL('dist'+stylesheet[1],root),'utf8')).replace(/@
 // A classic inline script permits file:// opening; the Vite bundle has no imports.
 if(/\bimport\s*(?:\(|[{*]|["'])/.test(js))throw new Error('Unexpected runtime import: preview must be self-contained.');
 const inlineScript='<script>'+js.replace(/<\/script/gi,'<\\/script')+'</script>';
-const output=html.replace(script[0],'').replace(stylesheet[0],()=>'<style>'+css.replace(/<\/style/gi,'<\\/style')+'</style>').replace('</body>',()=>inlineScript+'</body>');
+const output=html.replace(script[0],'').replace(/[ \t]+$/gm,'').replace(stylesheet[0],()=>'<style>'+css.replace(/<\/style/gi,'<\\/style')+'</style>').replace('</body>',()=>inlineScript+'</body>');
 const dest=new URL('CivSync-preview.html',root);await writeFile(dest,output);
 console.log('Created '+fileURLToPath(dest));

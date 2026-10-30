@@ -6,7 +6,11 @@ import {RepresentationDirectory,OfficeProfile,RepresentativeResponsibilities,Rep
 import LocalityApp from './LocalityApp';
 import QuestionActions from './QuestionActions';
 import {getQuestionOwner,migrateLocalQuestions,removeOwnedQuestion} from './questions';
+import ThemeSettings from './ThemeSettings';
+import {applyTheme,readTheme} from './theme';
 import './styles.css';
+import './themes.css';
+applyTheme(readTheme());
 function readStored(key,fallback){try{const value=JSON.parse(localStorage.getItem(key));return value??fallback;}catch{return fallback;}}
 function useStored(key,initial,prepare=value=>value){const [value,set]=useState(()=>prepare(readStored(key,initial)));useEffect(()=>{try{localStorage.setItem(key,JSON.stringify(value));}catch{}},[key,value]);return[value,set];}
 const IconButton=({children,label,...props})=><button className="icon-button" aria-label={label} title={label} {...props}>{children}</button>;
@@ -66,4 +70,4 @@ function App(){
  </section></div>}
  </>;
 }
-createRoot(document.getElementById('root')).render(<App/>);
+createRoot(document.getElementById('root')).render(<><App/><ThemeSettings/></>);

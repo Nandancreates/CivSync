@@ -59,6 +59,16 @@ Ownership is a random identifier saved in this browser; this frontend has no acc
 
 Run `node tests/usability-browser.mjs` with the dev server running to validate save/cancel/delete, refresh persistence, sample/other-owner protection, simple disclosures and mobile layouts. `npm test` also checks legacy migration and ownership rules.
 
+## Themes
+
+Select the **Theme** button at the bottom-right of any page. Choose **Original** (the existing ivory and forest-green design), **Dark** (charcoal with muted green accents), or **Midnight** (midnight black, soft navy, and restrained orange highlights). The content, routes, saved profiles, questions, and other features stay the same.
+
+The preference is saved in `civsync-theme` on this browser and synchronises across tabs. The page applies a saved dark choice before rendering to avoid a light flash. If storage is unavailable, switching still works for the current session. The control supports keyboard navigation and works in the single-file preview.
+
+Colour tokens are defined in `src/themes.css`. The Original token values match the previous CSS colours; dark palettes separately style surfaces, text, borders, and status indicators. Theme UI colours use the `--theme-*` tokens. Keep status colours and text contrast distinguishable when extending a palette.
+
+With the dev server running, `node tests/themes-browser.mjs` checks switching, persistence, keyboard navigation, contrast, draft preservation, cross-tab updates, unavailable/invalid storage, themed dialogs and narrow-phone layouts.
+
 ## Features
 
 - Address search with demo neighbourhoods in Bengaluru, New Delhi, and Mumbai; unsupported addresses receive an explicit explanation.

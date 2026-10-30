@@ -10,6 +10,11 @@ try{
  // Load the exact HTML contents to test the standalone bundle without a server.
  await page.setContent(await readFile('CivSync-preview.html','utf8'));
  await page.getByRole('heading',{name:'Who represents you?'}).waitFor();
+ await page.getByRole('button',{name:'Theme',exact:true}).click();
+ await page.getByRole('radio',{name:/^Midnight/}).check();
+ assert.equal(await page.locator('html').getAttribute('data-theme'),'midnight');
+ await page.getByRole('radio',{name:/^Original/}).check();
+ await page.getByRole('button',{name:'Close theme settings'}).click();
  await page.getByRole('button',{name:'Explore demo',exact:true}).click();
  await page.getByRole('heading',{name:'They represent you.'}).waitFor();
  assert.equal(await page.locator('.rep-card').count(),3);
